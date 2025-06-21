@@ -1,0 +1,48 @@
+{
+  "name": "tibia-assets",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
+  },
+  "files": [
+    "dist/",
+    "resources/",
+    "package.json",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phacUFPE/npm-tibia-assets.git"
+  },
+  "keywords": [
+    "tibia",
+    "assets"
+  ],
+  "author": "phacUFPE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phacUFPE/npm-tibia-assets/issues"
+  },
+  "homepage": "https://github.com/phacUFPE/npm-tibia-assets#readme",
+  "description": "",
+  "dependencies": {
+    "lzma": "^2.3.2",
+    "node-fetch": "^3.3.2",
+    "pngjs": "^7.0.0",
+    "protobufjs": "^7.5.3",
+    "upng-js": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/lzma": "^2.3.0",
+    "@types/node": "^24.5.2",
+    "@types/pngjs": "^6.0.5",
+    "@types/upng-js": "^2.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}

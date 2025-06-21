@@ -1,0 +1,13 @@
+catalog-content.json
+package-lock.json
+
+node_modules/
+
+encoded_sprites/
+
+/dist
+
+*.png
+
+*.dat
+*.lzma
