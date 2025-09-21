@@ -129,7 +129,6 @@ export default class Generator {
         const addonSpriteIndex = spriteData.index + addonOffset;
 
         if (addonSpriteIndex > spriteData.info.spriteId.length || spriteData.info.layers <= 1) {
-            throw new Error(`The addon draw was aborted, reason: addon sprite index greater than sprite list size`);
             return;
         }
 
@@ -174,7 +173,7 @@ export default class Generator {
         const templateSpriteIndex = spriteData.index + APPEARANCE_TEMPLATE_OFFSET;
 
         if (templateSpriteIndex > spriteData.info.spriteId.length || spriteData.info.layers <= 1) {
-            throw new Error(`The template draw was aborted, reason: template sprite index greater than sprite list size`);
+            return;
         }
 
         const templateBuffer = await this.appearances?.getSprite(spriteData.info.spriteId[templateSpriteIndex]);
