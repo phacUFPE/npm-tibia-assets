@@ -1,4 +1,4 @@
-import { SpriteSize } from './interfaces/sprite';
+import { SpriteSize } from './interfaces';
 
 export const SpriteLayout: SpriteSize[] = [
     { width: 32, height: 32 },

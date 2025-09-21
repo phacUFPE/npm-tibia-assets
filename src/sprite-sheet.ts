@@ -2,7 +2,7 @@ import fs from 'fs';
 import lzma from 'lzma';
 import { SpriteLayout } from './constants';
 import { flipVertical, bgraToRgba } from './image-utils';
-import { SpriteSize } from './interfaces/sprite';
+import { SpriteSize } from './interfaces';
 
 export default class SpriteSheet {
     public firstId: number;

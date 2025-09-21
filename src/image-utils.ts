@@ -1,6 +1,5 @@
-import { OutfitData } from './interfaces/outfit'
+import { OutfitData, SpriteSize } from './interfaces'
 import { TEMPLATE_OUTFIT_LOOKUP_TABLE } from './constants';
-import { SpriteSize } from './interfaces/sprite';
 
 /**
  * Flips a pixel buffer vertically.

@@ -3,10 +3,8 @@ import { APPEARANCE_FIRST_ADDON_OFFSET, APPEARANCE_SECOND_ADDON_OFFSET, APPEARAN
 import AppearanceManager from './appearances';
 import CatalogContent from './catalog-content';
 import { colorizePixels } from './image-utils';
-import { Direction } from './enums/general';
-import { OutfitAnimation } from './enums/outfit';
-import { OutfitData } from './interfaces/outfit';
-import { SpriteSize } from './interfaces/sprite';
+import { Direction, OutfitAnimation } from './enums';
+import { OutfitData, SpriteSize } from './interfaces';
 import TibiaProtobuf from './tibia-protobuf';
 
 interface SpriteData {

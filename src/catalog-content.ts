@@ -2,14 +2,7 @@ import fs from 'fs';
 
 import { AssetsType } from './constants';
 import SpriteSheet from './sprite-sheet';
-
-export interface CatalogItem {
-    type: AssetsType;
-    file: string;
-    firstspriteid: number;
-    lastspriteid: number;
-    spritetype: number;
-}
+import { CatalogItem } from './interfaces';
 
 class CatalogContent {
     private path: string;

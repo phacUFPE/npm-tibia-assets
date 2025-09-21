@@ -1,5 +1,4 @@
-import { Appearance } from './interfaces/appearances';
-import { SpriteSize } from './interfaces/sprite';
+import { Appearance, SpriteSize } from './interfaces';
 import SpriteSheet from './sprite-sheet';
 
 export default class AppearanceManager {
