@@ -294,7 +294,7 @@ export default class Generator {
      * @param animationType - The animation type of the outfit. Default is Moving.
      * @returns A promise that resolves to a Uint8Array containing the outfit image data.
      */
-    async getOufit(
+    async getOutfit(
         outfitData: OutfitData,
         direction: Direction = Direction.South,
         animationType: OutfitAnimation = OutfitAnimation.Idle
