@@ -10,11 +10,12 @@ export { default as SpriteSheet } from './sprite-sheet';
 export { default as TibiaProtobuf } from './tibia-protobuf';
 
 // Types and Enums
-export { Direction, OutfitAnimation, AssetsType } from './constants';
+export * from './constants';
+export type * from './interfaces';
+export * from './enums';
 
 // Interfaces
 export type { CatalogItem } from './catalog-content';
-export type { Appearance } from './appearances';
 
 // Utility functions
 export { flipVertical, bgraToRgba, colorizePixel, colorizePixels } from './image-utils';

@@ -1,10 +1,13 @@
-import AppearanceManager, { SpriteSize } from './appearances';
-import TibiaProtobuf from './tibia-protobuf';
-import SpriteSheet from './sprite-sheet';
-import CatalogContent from './catalog-content';
 import AnimatedImage from './animated-image';
-import { APPEARANCE_FIRST_ADDON_OFFSET, APPEARANCE_SECOND_ADDON_OFFSET, APPEARANCE_TEMPLATE_OFFSET, Direction, OutfitAnimation, OutfitData } from './constants';
+import { APPEARANCE_FIRST_ADDON_OFFSET, APPEARANCE_SECOND_ADDON_OFFSET, APPEARANCE_TEMPLATE_OFFSET } from './constants';
+import AppearanceManager from './appearances';
+import CatalogContent from './catalog-content';
 import { colorizePixels } from './image-utils';
+import { Direction } from './enums/general';
+import { OutfitAnimation } from './enums/outfit';
+import { OutfitData } from './interfaces/outfit';
+import { SpriteSize } from './interfaces/sprite';
+import TibiaProtobuf from './tibia-protobuf';
 
 interface SpriteData {
     index: number;
@@ -51,14 +54,14 @@ export default class Generator {
      */
     constructor(protobuf: string | TibiaProtobuf, catalog: string | CatalogContent) {
         if (!protobuf) {
-            throw new Error("Protobuf path or instance is required");
+            throw new Error('Protobuf path or instance is required');
         }
 
-        if (typeof protobuf === "string") {
+        if (typeof protobuf === 'string') {
             protobuf = new TibiaProtobuf(protobuf);
         }
 
-        if (typeof catalog === "string") {
+        if (typeof catalog === 'string') {
             catalog = new CatalogContent(catalog);
         }
 
@@ -303,7 +306,7 @@ export default class Generator {
         }
 
         if (!this.assets || !this.appearances) {
-            throw new Error("Generator not properly initialized");
+            throw new Error('Generator not properly initialized');
         }
 
         const selectedOutfit = this.assets.outfit.find((outfit: Outfit) => outfit.id === outfitData.lookType);
@@ -326,7 +329,7 @@ export default class Generator {
 
         const spriteSize = await this.appearances.getSpriteSize(frameGroup.spriteInfo.spriteId[0]);
         if (!spriteSize) {
-            throw new Error("Could not get sprite size");
+            throw new Error('Could not get sprite size');
         }
 
 
@@ -352,7 +355,7 @@ export default class Generator {
         }
 
         if (!this.assets || !this.appearances) {
-            throw new Error("Generator not properly initialized");
+            throw new Error('Generator not properly initialized');
         }
 
         const selectedItem = this.assets.object.find((item: Item) => item.id === itemId);
@@ -367,7 +370,7 @@ export default class Generator {
         const frameGroup = selectedItem.frameGroup[0];
         const spriteSize = await this.appearances.getSpriteSize(frameGroup.spriteInfo.spriteId[0]);
         if (!spriteSize) {
-            throw new Error("Could not get sprite size");
+            throw new Error('Could not get sprite size');
         }
 
         let animatedImage = new AnimatedImage(spriteSize.width, spriteSize.height);

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import * as protobuf from "protobufjs";
+import * as protobuf from 'protobufjs';
 
 interface AppearanceObject {
     id: string;
@@ -24,7 +24,7 @@ class TibiaProtobuf {
             return TibiaProtobuf._instance;
         }
 
-        this.proto = protoPath || path.join(__dirname, "..", "resources", "appearances.proto");
+        this.proto = protoPath || path.join(__dirname, '..', 'resources', 'appearances.proto');
         this.assets = assetsPath;
 
         TibiaProtobuf._instance = this;
@@ -37,7 +37,7 @@ class TibiaProtobuf {
      */
     async decode(): Promise<AppearanceObject> {
         const root = await protobuf.load(this.proto);
-        const Appearances = root.lookupType("Appearances");
+        const Appearances = root.lookupType('Appearances');
         const buffer = fs.readFileSync(this.assets);
         const message = Appearances.decode(buffer);
         

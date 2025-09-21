@@ -1,30 +1,6 @@
-interface Sprite {
-    width: number;
-    height: number;
-}
+import { SpriteSize } from './interfaces/sprite';
 
-export enum Direction {
-  North = 0,
-  East = 1,
-  South = 2,
-  West = 3,
-};
-
-export interface OutfitData {
-  lookType: number;
-  lookHead: number;
-  lookBody: number;
-  lookLegs: number;
-  lookFeet: number;
-  lookAddons: number;
-}
-
-export enum OutfitAnimation {
-  Idle = "FIXED_FRAME_GROUP_OUTFIT_IDLE",
-  Moving = "FIXED_FRAME_GROUP_OUTFIT_MOVING",
-};
-
-export const SpriteLayout: Sprite[] = [
+export const SpriteLayout: SpriteSize[] = [
     { width: 32, height: 32 },
     { width: 64, height: 32 },
     { width: 32, height: 64 },

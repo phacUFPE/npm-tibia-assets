@@ -2,6 +2,7 @@ import fs from 'fs';
 import lzma from 'lzma';
 import { SpriteLayout } from './constants';
 import { flipVertical, bgraToRgba } from './image-utils';
+import { SpriteSize } from './interfaces/sprite';
 
 export default class SpriteSheet {
     public firstId: number;
@@ -9,7 +10,7 @@ export default class SpriteSheet {
     public loaded: boolean;
     public pixels: Uint8Array | null;
     private filePath: string;
-    private spriteSize: { width: number; height: number };
+    private spriteSize: SpriteSize;
 
     constructor(filePath: string, firstId: number, lastId: number, layout: number) {
         this.filePath = filePath;
