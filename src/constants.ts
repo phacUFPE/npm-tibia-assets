@@ -2,8 +2,8 @@ import { SpriteSize } from './interfaces';
 
 export const SpriteLayout: SpriteSize[] = [
     { width: 32, height: 32 },
-    { width: 64, height: 32 },
     { width: 32, height: 64 },
+    { width: 64, height: 32 },
     { width: 64, height: 64 }
 ];
 
