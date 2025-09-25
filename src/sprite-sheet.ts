@@ -67,21 +67,12 @@ export default class SpriteSheet {
     }
 
     /**
-     * Gets the width of a single sprite in pixels.
+     * Gets the sprite size of a single sprite in pixels
      * 
-     * @returns The width of a single sprite in pixels.
+     * @returns The sprite size of a single sprite in pixels.
      */
-    getSpriteWidth(): number {
-        return this.spriteSize.width;
-    }
-
-    /**
-     * Gets the height of a single sprite in pixels.
-     * 
-     * @returns The height of a single sprite in pixels.
-     */
-    getSpriteHeight(): number {
-        return this.spriteSize.height;
+    getSpriteSize(): SpriteSize {
+        return this.spriteSize;
     }
 
     /**
