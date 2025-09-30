@@ -1,3 +1,7 @@
+import * as fs from 'fs';
+import * as fsPromises from "fs/promises";
+import * as pathJS from "path";
+
 import AnimatedImage from './animated-image';
 import { APPEARANCE_FIRST_ADDON_OFFSET, APPEARANCE_SECOND_ADDON_OFFSET, APPEARANCE_TEMPLATE_OFFSET } from './constants';
 import AppearanceManager from './appearances';
@@ -6,7 +10,6 @@ import { colorizePixels } from './image-utils';
 import { Direction, OutfitAnimation } from './enums';
 import { OutfitData, SpriteSize } from './interfaces';
 import TibiaProtobuf from './tibia-protobuf';
-import * as fs from 'fs';
 
 interface SpriteData {
     index: number;
@@ -44,6 +47,7 @@ export default class Generator {
     private protobuf: TibiaProtobuf;
     private assets: any;
     private intialized: boolean;
+    private cache: boolean;
 
     /**
      * Generator constructor.
@@ -51,7 +55,7 @@ export default class Generator {
      * @param protobuf - The path to the protobuf file or an instance of TibiaProtobuf.
      * @param catalog - The path to the catalog file or an instance of CatalogContent.
      */
-    constructor(protobuf: string | TibiaProtobuf, catalog: string | CatalogContent) {
+    constructor(protobuf: string | TibiaProtobuf, catalog: string | CatalogContent, cache: boolean = false) {
         if (!protobuf) {
             throw new Error('Protobuf path or instance is required');
         }
@@ -69,6 +73,7 @@ export default class Generator {
         this.protobuf = protobuf;
         this.assets = null;
         this.intialized = false;
+        this.cache = cache;
     }
 
     /**
@@ -300,6 +305,14 @@ export default class Generator {
         animationType: OutfitAnimation = OutfitAnimation.Idle,
         path: string = ""
     ): Promise<Uint8Array> {
+        const fileName = `${animationType == OutfitAnimation.Idle ? 'Idle' : 'Moving'}_${outfitData.lookType}_${outfitData.lookHead}_${outfitData.lookBody}_${outfitData.lookLegs}_${outfitData.lookFeet}_${outfitData.lookAddons}.png`;
+        const cacheFilePath = pathJS.join(process.cwd(), 'outfits', fileName);
+
+        if (this.cache && fs.existsSync(cacheFilePath)) {
+            const cacheBuffer = fs.readFileSync(cacheFilePath);
+            return new Uint8Array(cacheBuffer);
+        }
+
         if (!this.intialized) {
             await this.init();
         }
@@ -341,8 +354,16 @@ export default class Generator {
 
         const imageBuffer = await animatedImage.create();
 
+        const writableBuffer = Buffer.from(imageBuffer);
+
         if (path) {
-            fs.writeFileSync(path, Buffer.from(imageBuffer));
+            fs.writeFileSync(path, writableBuffer);
+        }
+
+        if (this.cache) {
+            const directory = pathJS.dirname(cacheFilePath);
+            await fsPromises.mkdir(directory, { recursive: true });
+            fs.writeFileSync(cacheFilePath, writableBuffer)
         }
 
         return imageBuffer;
@@ -355,7 +376,15 @@ export default class Generator {
      * @returns A promise that resolves to a Uint8Array containing the item image data.
      */
     async getItem(itemId: number, path: string = ""): Promise<Uint8Array> {
-         if (!this.intialized) {
+
+        const cacheFilePath = pathJS.join(process.cwd(), 'items', `${itemId}.png`);
+
+        if (this.cache && fs.existsSync(cacheFilePath)) {
+            const cacheBuffer = fs.readFileSync(cacheFilePath);
+            return new Uint8Array(cacheBuffer);
+        }
+
+        if (!this.intialized) {
             await this.init();
         }
 
@@ -388,8 +417,16 @@ export default class Generator {
 
         const imageBuffer = await animatedImage.create();
         
+        const writableBuffer = Buffer.from(imageBuffer);
+
         if (path) {
-            fs.writeFileSync(path, Buffer.from(imageBuffer));
+            fs.writeFileSync(path, writableBuffer);
+        }
+
+        if (this.cache) {
+            const directory = pathJS.dirname(cacheFilePath);
+            await fsPromises.mkdir(directory, { recursive: true });
+            fs.writeFileSync(cacheFilePath, writableBuffer)
         }
 
         return imageBuffer;
