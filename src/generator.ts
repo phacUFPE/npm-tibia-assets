@@ -10,7 +10,6 @@ import { colorizePixels } from './image-utils';
 import { Direction, OutfitAnimation } from './enums';
 import { OutfitData, SpriteSize } from './interfaces';
 import TibiaProtobuf from './tibia-protobuf';
-import * as fs from 'fs';
 
 interface SpriteData {
     index: number;
@@ -303,8 +302,6 @@ export default class Generator {
     async getOutfit(
         outfitData: OutfitData,
         direction: Direction = Direction.South,
-        animationType: OutfitAnimation = OutfitAnimation.Idle,
-        path: string = ""
         animationType: OutfitAnimation = OutfitAnimation.Idle,
         path: string = ""
     ): Promise<Uint8Array> {
