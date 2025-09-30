@@ -26,16 +26,16 @@ export default class AppearanceManager {
             await SpriteSheet.load(sheet);
         }
 
-        const spriteWidth = sheet.getSpriteWidth();
-        const spriteHeight = sheet.getSpriteHeight();
 
-        if (spriteWidth <= 0 || spriteHeight <= 0) {
-            console.debug(`Invalid sprite dimensions: width = ${spriteWidth}, height = ${spriteHeight}`);
+        const spriteSize = sheet.getSpriteSize();
+
+        if (spriteSize.width <= 0 || spriteSize.height <= 0) {
+            console.debug(`Invalid sprite dimensions: width = ${spriteSize.width}, height = ${spriteSize.height}`);
             return null;
         }
 
         const spriteOffset = spriteId - sheet.firstId;
-        const allColumns = spriteWidth === 32 ? 12 : 6;
+        const allColumns = spriteSize.width === 32 ? 12 : 6;
 
         const totalSprites = sheet.getTotalSprites();
         if (spriteOffset < 0 || spriteOffset >= totalSprites) {
@@ -61,12 +61,12 @@ export default class AppearanceManager {
         }
 
         const bufferSize = SpriteSheet.getHeight() * SpriteSheet.getWidthBytes();
-        const pixels = new Uint8Array(spriteWidth * spriteHeight * 4);
+        const pixels = new Uint8Array(spriteSize.width * spriteSize.height * 4);
 
-        const maxHeight = Math.min((spriteRow + 1) * spriteHeight, SpriteSheet.getHeight());
-        const spriteWidthBytes = spriteWidth * 4;
+        const maxHeight = Math.min((spriteRow + 1) * spriteSize.height, SpriteSheet.getHeight());
+        const spriteWidthBytes = spriteSize.width * 4;
 
-        for (let height = spriteHeight * spriteRow, offset = 0; height < maxHeight; height++, offset++) {
+        for (let height = spriteSize.height * spriteRow, offset = 0; height < maxHeight; height++, offset++) {
             const bufferDataStart = (height * SpriteSheet.getWidthBytes()) + (spriteColumn * spriteWidthBytes);
 
             if (bufferDataStart + spriteWidthBytes > bufferSize) {
@@ -109,9 +109,8 @@ export default class AppearanceManager {
             await SpriteSheet.load(sheet);
         }
 
-        const width: number = sheet.getSpriteWidth();
-        const height: number = sheet.getSpriteHeight();
+        const spriteSize: SpriteSize = sheet.getSpriteSize();
 
-        return { width, height };
+        return { width: spriteSize.width, height: spriteSize.height };
     }
 }
