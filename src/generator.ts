@@ -6,6 +6,7 @@ import { colorizePixels } from './image-utils';
 import { Direction, OutfitAnimation } from './enums';
 import { OutfitData, SpriteSize } from './interfaces';
 import TibiaProtobuf from './tibia-protobuf';
+import * as fs from 'fs';
 
 interface SpriteData {
     index: number;
@@ -296,7 +297,8 @@ export default class Generator {
     async getOutfit(
         outfitData: OutfitData,
         direction: Direction = Direction.South,
-        animationType: OutfitAnimation = OutfitAnimation.Idle
+        animationType: OutfitAnimation = OutfitAnimation.Idle,
+        path: string = ""
     ): Promise<Uint8Array> {
         if (!this.intialized) {
             await this.init();
@@ -337,7 +339,13 @@ export default class Generator {
             animatedImage = await this.getIdle(frameGroup, spriteSize, outfitData, direction);
         }
 
-        return await animatedImage.create();
+        const imageBuffer = await animatedImage.create();
+
+        if (path) {
+            fs.writeFileSync(path, Buffer.from(imageBuffer));
+        }
+
+        return imageBuffer;
     }
 
     /**
@@ -346,7 +354,7 @@ export default class Generator {
      * @param itemId - The item id.
      * @returns A promise that resolves to a Uint8Array containing the item image data.
      */
-    async getItem(itemId: number): Promise<Uint8Array> {
+    async getItem(itemId: number, path: string = ""): Promise<Uint8Array> {
          if (!this.intialized) {
             await this.init();
         }
@@ -378,7 +386,13 @@ export default class Generator {
             animatedImage = await this.getIdle(frameGroup, spriteSize);
         }
 
-        return await animatedImage.create();
+        const imageBuffer = await animatedImage.create();
+        
+        if (path) {
+            fs.writeFileSync(path, Buffer.from(imageBuffer));
+        }
+
+        return imageBuffer;
     }
 }
 
