@@ -165,7 +165,7 @@ export default class Generator {
             size: spriteData.size
         }
 
-        this.drawTemplate(outfitData, addonSpriteData);
+        await this.drawTemplate(outfitData, addonSpriteData);
     }
 
     /**
