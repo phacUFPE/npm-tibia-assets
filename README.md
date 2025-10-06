@@ -1,7 +1,6 @@
 # npm-tibia-assets
 
 **npm-tibia-assets** provides a collection of assets / data for the game *Tibia*, packaged as an npm (TypeScript) module.  
-This repository contains both the source and the generated assets.
 
 ## Table of Contents
 
