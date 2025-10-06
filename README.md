@@ -125,7 +125,7 @@ getOutfit(outfitData: OutfitData, direction: Direction = Direction.South, animat
 
 #### getItem
 ```typescript
-// Generates an outfit PNG.
+// Generates an item PNG.
 getItem(itemId: number, path: string = ""): Promise<Uint8Array>
 ```
 | Parameter         | Type               | Description                              |
