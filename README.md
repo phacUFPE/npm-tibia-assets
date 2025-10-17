@@ -4,9 +4,11 @@
 
 ## Table of Contents
 
-- [Features](#features)  
-- [Installation](#installation)  
+- [Features](#features)
+- [Installation](#installation)
 - [Usage](#usage)
+- [CLI Tool](#cli-tool)
+- [Programmatic Usage](#programmatic-usage)
 - [API Quick Reference](#api-quick-reference)
 
 ---
@@ -32,8 +34,117 @@ npm install tibia-assets
 
 ## Usage
 
-### Outfit
-Usage example to get an Oufit:
+### CLI Tool
+
+The package includes a CLI tool for pre-generating item images and outfit sprites. This is especially useful for production environments where you want to avoid CPU/Memory overhead from generating images on-demand.
+
+#### Installation
+
+After installing the package, the `tibia-assets-generate` command will be available:
+
+```bash
+npm install tibia-assets
+```
+
+#### Usage
+
+**Generate Items:**
+```bash
+# Generate all items
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m items
+
+# Generate specific range of items
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -r "1-500"
+
+# Generate specific items by ID
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -r "3031,3043,3050"
+```
+
+**Generate Outfits:**
+```bash
+# Generate all outfits with default colors
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m outfits
+
+# Generate specific outfits with color variations
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m outfits \
+  -or "513,514" --look-head "0,10,20" --look-body "0,14" --look-legs "0" --look-feet "0"
+
+# Generate outfits in all directions
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m outfits \
+  -or "513" -d "north,east,south,west" -a "idle,moving"
+
+# Generate with addons
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m outfits \
+  -or "513" --look-addons "0,1,2,3"
+```
+
+**Generate Both Items and Outfits:**
+```bash
+tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m both \
+  -r "1-1000" -or "513-520"
+```
+
+**Use in npm scripts:**
+```json
+{
+  "scripts": {
+    "generate:items": "tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m items -o ./public/items",
+    "generate:outfits": "tibia-assets-generate -p ./assets/appearances.dat -c ./assets/catalog-content.json -m outfits -or \"513-600\" -o ./public/outfits",
+    "prebuild": "npm run generate:items && npm run generate:outfits",
+    "build": "your-build-command"
+  }
+}
+```
+
+#### Options
+
+| Option | Alias | Description | Required |
+|--------|-------|-------------|----------|
+| `--protobuf` | `-p` | Path to appearances.dat protobuf file | Yes |
+| `--catalog` | `-c` | Path to catalog-content.json file | Yes |
+| `--mode` | `-m` | Generation mode: "items", "outfits", or "both" (default: items) | No |
+| `--output` | `-o` | Output directory for generated images (default: `./generated-assets`) | No |
+
+**Item Options:**
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--item-range` | `-r` | Item ID range to generate (e.g., "1-100" or "3031,3043,3050") |
+
+**Outfit Options:**
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--outfit-range` | `-or` | Outfit ID range to generate (e.g., "1-50" or "513,514") |
+| `--direction` | `-d` | Direction(s): north, east, south, west (default: south) |
+| `--animation` | `-a` | Animation type(s): idle, moving (default: idle) |
+| `--look-head` | | Head color(s) (e.g., "0" or "0,10,20" or "0-153") |
+| `--look-body` | | Body color(s) (e.g., "0" or "0,10,20" or "0-153") |
+| `--look-legs` | | Legs color(s) (e.g., "0" or "0,10,20" or "0-153") |
+| `--look-feet` | | Feet color(s) (e.g., "0" or "0,10,20" or "0-153") |
+| `--look-addons` | | Addons: 0 (none), 1 (first), 2 (second), 3 (both) |
+
+#### Output File Naming
+
+**Items:** `{itemId}.png` (e.g., `3031.png`)
+
+**Outfits:** `{outfitId}_{direction}_{animation}_h{head}_b{body}_l{legs}_f{feet}_a{addons}.png`
+- Example: `513_south_idle_h0_b14_l33_f21_a2.png`
+
+#### Benefits
+
+- **Performance**: Pre-generate images at build time instead of runtime
+- **Reduced CPU/Memory**: Avoid runtime image generation in production
+- **Caching**: Skip already generated images for faster subsequent runs
+- **Selective Generation**: Generate only specific items/outfits or ranges as needed
+- **Color Variations**: Generate multiple color combinations for outfits
+- **Directional Sprites**: Generate all 4 directions (north, east, south, west)
+- **Animation Support**: Generate both idle and moving animations
+
+### Programmatic Usage
+
+#### Generate Outfits
+Usage example to get an Outfit:
 
 ```typescript
 import { Generator } from "npm-tibia-assets";
@@ -65,7 +176,7 @@ async function main() {
 main();
 ```
 
-### Item
+#### Generate Items
 Usage example to get an Item:
 
 ```typescript
